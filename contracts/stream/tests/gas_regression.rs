@@ -235,7 +235,8 @@ fn test_bulk_resume_streams_as_admin_gas() {
             // Advance past the pause/resume cooldown (17 ledgers) so the
             // subsequent pause succeeds even if the ledger sequence is low.
             ctx.env.ledger().with_mut(|l| l.sequence_number += 32);
-            ctx.client.pause_stream_as_admin(&id, &PauseReason::Administrative);
+            ctx.client
+                .pause_stream_as_admin(&id, &PauseReason::Administrative);
             streams.push_back(id);
         }
 
@@ -251,7 +252,10 @@ fn test_bulk_resume_streams_as_admin_gas() {
             PER_INVOCATION_CPU_BUDGET,
         );
 
-        println!("GAS_MEASUREMENT: bulk_resume_streams_as_admin: {}: {}", size, cost);
+        println!(
+            "GAS_MEASUREMENT: bulk_resume_streams_as_admin: {}: {}",
+            size, cost
+        );
     }
 }
 

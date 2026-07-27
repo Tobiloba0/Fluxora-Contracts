@@ -1156,6 +1156,20 @@ class TestExtractContractimplEntrypoints:
         result = vda.extract_contractimpl_entrypoints(src)
         assert {"alpha", "beta", "gamma"}.issubset(result)
 
+    def test_multiline_cfg_attr_contractimpl_found(self):
+        src = (
+            "#[cfg_attr(\n"
+            "    not(all(target_arch = \"wasm32\", feature = \"import_only\")),\n"
+            "    contractimpl\n"
+            ")]\n"
+            "impl Foo {\n"
+            "    pub fn init(env: Env) {}\n"
+            "    pub fn withdraw(env: Env) {}\n"
+            "}\n"
+        )
+        result = vda.extract_contractimpl_entrypoints(src)
+        assert {"init", "withdraw"} == result
+
     def test_private_fn_inside_contractimpl_not_returned(self):
         src = (
             "#[contractimpl]\n"
