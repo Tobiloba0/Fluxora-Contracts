@@ -207,6 +207,9 @@
 
 #[cfg(test)]
 mod tests {
+    extern crate std;
+    use std::string::ToString;
+
     /// Verify the module compiles and the doc-comment invariants are present.
     #[test]
     fn checksum_module_compiles() {}
@@ -398,10 +401,9 @@ mod tests {
     #[test]
     fn doc_comment_toolchain_channel_matches_rust_toolchain_toml() {
         let manifest_dir = env!("CARGO_MANIFEST_DIR");
-        let toolchain_path =
-            std::path::Path::new(manifest_dir).join("../../rust-toolchain.toml");
-        let content = std::fs::read_to_string(&toolchain_path)
-            .expect("failed to read rust-toolchain.toml");
+        let toolchain_path = std::path::Path::new(manifest_dir).join("../../rust-toolchain.toml");
+        let content =
+            std::fs::read_to_string(&toolchain_path).expect("failed to read rust-toolchain.toml");
         let expected_channel = content
             .lines()
             .find_map(|line| {
